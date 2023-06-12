@@ -47,7 +47,7 @@ useHead({
         :ui="{
           group: {
             command: {
-              container: 'flex items-center gap-x-2 overflow-hidden py-0.5',
+              container: 'flex items-center gap-x-2 overflow-hidden py-2 md:py-0.5',
               label: 'flex flex-col overflow-hidden font-bold',
               prefix: 'text-xs opacity-50 font-semibold',
               suffix: 'text-xs opacity-50 font-semibold',
