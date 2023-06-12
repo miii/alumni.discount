@@ -43,14 +43,28 @@ export default defineEventHandler(async (event) => {
   // Place matched brands first
   const results = [...stukDiscounts, ...mecenatDiscounts]
     .sort((a, b) => {
-      if (a.brand.includes(searchQuery) && !b.brand.includes(searchQuery)) return -1
-      if (!a.brand.includes(searchQuery) && b.brand.includes(searchQuery)) return 1
+      const abrand = a.brand.toLowerCase()
+      const bbrand = b.brand.toLowerCase()
+      const query = searchQuery.toLowerCase()
+
+      // Prioritize brands that starts with query
+      if (abrand.startsWith(query) && !bbrand.startsWith(query)) return -1
+      if (!abrand.startsWith(query) && bbrand.startsWith(query)) return 1
+
+      // Match query in brand name
+      if (abrand.includes(query) && !bbrand.includes(query)) return -1
+      if (!abrand.includes(query) && bbrand.includes(query)) return 1
+
+      // If both brands match query, sort alphabetically
+      if (abrand.includes(query) && bbrand.includes(query))
+        return abrand.localeCompare(bbrand)
       
+      // Fallback to original order
       return 0
     })
 
   // Save in browser cache for 1 hour
-  event.node.res.setHeader('Cache-Control', 'public, max-age=3600')
+  event.node.res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=3600')
 
   return { results }
 })
