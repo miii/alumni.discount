@@ -57,7 +57,7 @@ useHead({
             },
           },
         }"
-        class="bg-white transition duration-1000"
+        class="bg-white dark:bg-gray-900 transition duration-1000"
         :class="highlight ? 'shadow-2xl' : 'shadow-md'"
       >
         <template #empty-state>
@@ -76,5 +76,9 @@ body {
 
 body.search-active {
   background: hsl(160, 20%, 90%);
+}
+
+html.dark body {
+  @apply bg-gradient-to-b from-black to-gray-800;
 }
 </style>
