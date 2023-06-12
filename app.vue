@@ -32,7 +32,27 @@ useHead({
   title: 'Alumnirabatt',
   bodyAttrs: {
     class: computed(() => highlight.value ? 'search-active' : '')
-  }
+  },
+  link: [
+    {
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico',
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      href: '/favicon.png',
+    },
+    {
+      rel: 'apple-touch-icon',
+      href: '/apple-touch-icon.png',
+    },
+    {
+      rel: 'manifest',
+      href: '/site.webmanifest',
+    },
+  ],
 })
 </script>
 
@@ -43,7 +63,7 @@ useHead({
         ref="palette"
         :groups="groups"
         @update:model-value="onSelect"
-        placeholder="Sök bland butiker och rabatter..."
+        placeholder="Sök bland butiker och erbjudanden..."
         :ui="{
           group: {
             command: {
