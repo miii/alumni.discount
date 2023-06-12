@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-const palette = ref<{ query: string }>()
+import type { Discount } from './server/utils/search';
 
+const palette = ref<{ query: string }>()
 const groups = computed(() => {
   return [{
     key: 'discounts',
@@ -16,22 +17,20 @@ const groups = computed(() => {
         label: `${discount.brand}: ${discount.title}`,
         prefix: discount.provider,
         suffix: discount.description,
-        href: discount.url,
+        url: discount.url,
         icon: 'i-heroicons-bolt-solid',
       }))
     }
   }].filter(Boolean)
 })
 
-function onSelect (option: any) {
-  window.open(option.href, option.target)
-}
+const onSelect = (option: Discount) => window.open(option.url, '_blank', 'noopener,noreferrer')
+const highlightInput = computed(() => palette.value && palette.value.query.length >= 2)
 
-const highlight = computed(() => palette.value && palette.value.query.length >= 2)
 useHead({
   title: 'Alumnirabatt',
   bodyAttrs: {
-    class: computed(() => highlight.value ? 'search-active' : '')
+    class: computed(() => highlightInput.value ? 'search-active' : '')
   },
   link: [
     {
@@ -78,7 +77,7 @@ useHead({
           },
         }"
         class="bg-white dark:bg-gray-900 transition duration-1000"
-        :class="highlight ? 'shadow-2xl' : 'shadow-md'"
+        :class="highlightInput ? 'shadow-2xl' : 'shadow-md'"
       >
         <template #empty-state>
           <div />
