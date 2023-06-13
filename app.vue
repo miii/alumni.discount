@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Discount } from './server/utils/search';
 
-const palette = ref<{ query: string }>()
+const palette = ref<any>()
 const groups = computed(() => {
   return [{
     key: 'discounts',
@@ -24,6 +24,7 @@ const groups = computed(() => {
   }].filter(Boolean)
 })
 
+onMounted(() => palette.value?.$refs.comboboxInput.el.focus())
 const onSelect = (option: Discount) => window.open(option.url, '_blank', 'noopener,noreferrer')
 const highlightInput = computed(() => palette.value && palette.value.query.length >= 2)
 
