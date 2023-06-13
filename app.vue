@@ -61,6 +61,7 @@ useHead({
       <UCommandPalette
         ref="palette"
         :groups="groups"
+        :autoclear="false"
         @update:model-value="onSelect"
         placeholder="Sök bland butiker och erbjudanden..."
         :ui="{
