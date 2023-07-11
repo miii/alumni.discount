@@ -1,20 +1,23 @@
 {
   "name": "@miii/alumnirabatt",
   "version": "1.0.0",
-  "description": "Search alumni discounts from Mecenat and Studentkortet simultaneously",
+  "description": "Sök bland alumnirabatter från Mecenat & Studentkortet på samma gång",
   "private": true,
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "build:assets": "pwa-assets-generator --preset minimal public/favicon.svg"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxthq/ui": "npm:@nuxthq/ui-edge@latest",
     "@tailwindcss/container-queries": "^0.1.1",
     "@types/node": "^18.16.19",
+    "@vite-pwa/assets-generator": "^0.0.3",
+    "@vite-pwa/nuxt": "^0.1.0",
     "nuxt": "^3.6.2"
   }
 }

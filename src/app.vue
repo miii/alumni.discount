@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Discount } from './server/utils/search';
+import type { Discount } from './server/utils/search'
 
 const palette = ref<any>()
 const groups = computed(() => {
@@ -29,36 +29,17 @@ const onSelect = (option: Discount) => window.open(option.url, '_blank', 'noopen
 const highlightInput = computed(() => palette.value && palette.value.query.length >= 2)
 
 useHead({
-  title: 'Alumnirabatt',
   bodyAttrs: {
     class: computed(() => highlightInput.value ? 'search-active' : '')
   },
-  link: [
-    {
-      rel: 'icon',
-      type: 'image/x-icon',
-      href: '/favicon.ico',
-    },
-    {
-      rel: 'icon',
-      type: 'image/png',
-      href: '/favicon.png',
-    },
-    {
-      rel: 'apple-touch-icon',
-      href: '/apple-touch-icon.png',
-    },
-    {
-      rel: 'manifest',
-      href: '/site.webmanifest',
-    },
-  ],
 })
 </script>
 
 <template>
   <div class="h-screen flex justify-center items-start">
-    <div class="w-full max-w-screen-md px-4 pb-4 md:pt-24 md:pb-24">
+    <Footer />
+    <Metadata />
+    <div class="w-full max-w-screen-md px-4 pb-4 flex flex-col gap-4 md:pt-24 md:pb-24 relative z-10">
       <UCommandPalette
         ref="palette"
         :groups="groups"
