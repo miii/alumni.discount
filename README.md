@@ -1,4 +1,4 @@
 # @miii/alumnirabatt
-> 💫 Search alumni discounts from Mecenat and Studentkortet simultaneously
+> 🫰 Sök bland alumnirabatter från Mecenat & Studentkortet på samma gång
 
-![Screenshot](https://github.com/miii/alumnirabatt/assets/158975/84d90531-9f2b-4a84-8a4d-95e5be869cda)
+![Screenshot](https://github.com/miii/alumnirabatt/assets/158975/5ac7624c-d3ab-4b15-8384-87a71e5b9ba2)
