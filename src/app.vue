@@ -16,7 +16,7 @@ const groups = computed(() => {
         id: discount.id,
         label: `${discount.brand}: ${discount.title}`,
         prefix: discount.provider,
-        suffix: discount.description,
+        suffix: [discount.condition, discount.description].filter(Boolean).join(' - '),
         url: discount.url,
         icon: 'i-heroicons-bolt-solid',
       }))

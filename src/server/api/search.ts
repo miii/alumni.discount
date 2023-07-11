@@ -1,4 +1,4 @@
-import { Discount, MecenatResponse, StukResponse, stripHtml } from '../utils/search'
+import { Discount, MecenatResponse, StukResponse, findCondition, stripHtml } from '../utils/search'
 
 export default defineEventHandler(async (event) => {
   const { q } = getQuery(event)
@@ -18,27 +18,39 @@ export default defineEventHandler(async (event) => {
   const [stuk, mecenat] = await Promise.all([stukReponse, mecenatResponse])
 
   // Create discount objects from Studentkortet response
-  const stukDiscounts: Discount[] = stuk.hits.hits.map(({ _source: discount }) => ({
-    id: `stuk://${discount.id}`,
-    brand: discount.partner_extra_title || discount.name,
-    title: discount.headline.trim(),
-    description: stripHtml(discount.description_text),
-    logo_url: discount.logo_image_url,
-    url: `https://www.studentkortet.se/${discount.path}`,
-    provider: 'Studentkortet',
-  }))
+  const stukDiscounts: Discount[] = stuk.hits.hits.map(({ _source: discount }) => {
+    const description = stripHtml(discount.description_text)
+    const condition = findCondition(description)
+
+    return {
+      id: `stuk://${discount.id}`,
+      brand: discount.partner_extra_title || discount.name,
+      title: discount.headline.trim(),
+      description,
+      logo_url: discount.logo_image_url,
+      url: `https://www.studentkortet.se/${discount.path}`,
+      provider: 'Studentkortet',
+      condition,
+    }
+})
 
   // Create discount objects from Mecenat response
-  const mecenatDiscounts: Discount[] = mecenat.discounts?.map((discount) => ({
-    id: `stuk://${discount.id}`,
-    brand: discount.brandName,
-    title: discount.title,
-    subtitle: discount.subtitle,
-    description: stripHtml(discount.conditionHTML),
-    logo_url: discount.brandLogo,
-    url: `https://www.mecenatalumni.com${discount.url}`,
-    provider: 'Mecenat',
-  })) ?? []
+  const mecenatDiscounts: Discount[] = mecenat.discounts?.map((discount) => {
+    const conditionText = stripHtml(discount.conditionHTML)
+    const description = discount.subtitle || conditionText
+    const condition = findCondition(conditionText)
+
+    return {
+      id: `stuk://${discount.id}`,
+      brand: discount.brandName,
+      title: discount.title,
+      description,
+      logo_url: discount.brandLogo,
+      url: `https://www.mecenatalumni.com${discount.url}`,
+      provider: 'Mecenat',
+      condition,
+    }
+   }) ?? []
 
   // Place matched brands first
   const results = [...stukDiscounts, ...mecenatDiscounts]
@@ -54,6 +66,10 @@ export default defineEventHandler(async (event) => {
       // Match query in brand name
       if (abrand.includes(query) && !bbrand.includes(query)) return -1
       if (!abrand.includes(query) && bbrand.includes(query)) return 1
+
+      // Prioritize brands without condition
+      if (a.condition && !b.condition) return 1
+      if (!a.condition && b.condition) return -1
 
       // If both brands match query, sort alphabetically
       if (abrand.includes(query) && bbrand.includes(query))

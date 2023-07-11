@@ -7,6 +7,7 @@ export interface Discount {
   logo_url: string
   url: string
   provider: Provider
+  condition: string | null
 }
 
 /** Raw response returned from Studentkortet API */
@@ -47,11 +48,24 @@ type Provider = 'Studentkortet' | 'Mecenat'
  * @param html HTML string
  */
 export const stripHtml = (html: string) => {
-  return html
-    .replace(/<\/p>\s*/g, '. ')
+  const content = html
+    .replace(/\s*<\/p>\s*/g, '. ')
     .replace(/ \./g, '')
     .replace(/(<([^>]+)>)/gi, '')
     .replace(/\s*\r\n\s*/g, '. ')
-    .replace(/&nbsp;/g, '')
+    .replace(/\s*&nbsp;\s*/g, ' ')
+    .replace(/\n/g, '')
+    .replace(/([^\.])\.\.\s/g, '$1. ')
     .trim()
+
+  return content
+}
+
+/**
+ * Find discount conditions, like minimum order value
+ * @param description Discount description
+ */
+export const findCondition = (description: string) => {
+  const minAmount = description.match(/(minst|över|ordervärde) ([0-9]+ kr)/i)?.[2]
+  return minAmount ? `Minst ${minAmount}` : null
 }
