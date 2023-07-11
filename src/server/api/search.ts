@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
       brand: discount.partner_extra_title || discount.name,
       title: discount.headline.trim(),
       description,
-      logo_url: discount.logo_image_url,
+      logoUrl: discount.logo_image_url,
       url: `https://www.studentkortet.se/${discount.path}`,
       provider: 'Studentkortet',
       condition,
@@ -45,7 +45,7 @@ export default defineEventHandler(async (event) => {
       brand: discount.brandName,
       title: discount.title,
       description,
-      logo_url: discount.brandLogo,
+      logoUrl: discount.brandLogo,
       url: `https://www.mecenatalumni.com${discount.url}`,
       provider: 'Mecenat',
       condition,
@@ -63,13 +63,13 @@ export default defineEventHandler(async (event) => {
       if (abrand.startsWith(query) && !bbrand.startsWith(query)) return -1
       if (!abrand.startsWith(query) && bbrand.startsWith(query)) return 1
 
+      // Prioritize brands without discount condition
+      if (a.condition && !b.condition) return 1
+      if (!a.condition && b.condition) return -1
+
       // Match query in brand name
       if (abrand.includes(query) && !bbrand.includes(query)) return -1
       if (!abrand.includes(query) && bbrand.includes(query)) return 1
-
-      // Prioritize brands without condition
-      if (a.condition && !b.condition) return 1
-      if (!a.condition && b.condition) return -1
 
       // If both brands match query, sort alphabetically
       if (abrand.includes(query) && bbrand.includes(query))

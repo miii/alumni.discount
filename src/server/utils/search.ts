@@ -4,7 +4,7 @@ export interface Discount {
   brand: string
   title: string
   description: string
-  logo_url: string
+  logoUrl: string
   url: string
   provider: Provider
   condition: string | null

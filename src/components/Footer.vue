@@ -7,9 +7,9 @@ import { version } from '../../package.json'
     href="https://www.github.com/miii"
     target="_blank"
     rel="noopener noreferrer"
-    class="text-center text-xs opacity-20 fixed bottom-4 font-semibold flex gap-2 items-center hover:opacity-40"
+    class="text-center text-xs opacity-30 fixed bottom-4 font-semibold flex gap-2 items-center hover:opacity-50"
   >
-    <GithubLogo class="w-4" />
+    <Icon name="logos:github-icon" class="scale-110" />
     Alumnirabatt v{{ version }}
   </a>
 </template>

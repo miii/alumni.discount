@@ -39,33 +39,8 @@ useHead({
   <div class="h-screen flex justify-center items-start">
     <Footer />
     <Metadata />
-    <div class="w-full max-w-screen-md px-4 pb-4 flex flex-col gap-4 md:pt-24 md:pb-24 relative z-10">
-      <UCommandPalette
-        ref="palette"
-        :groups="groups"
-        :autoclear="false"
-        @update:model-value="onSelect"
-        placeholder="Sök bland butiker och erbjudanden..."
-        :ui="{
-          group: {
-            command: {
-              container: 'flex items-center gap-x-2 overflow-hidden py-2 md:py-0.5',
-              label: 'flex flex-col overflow-hidden font-bold',
-              prefix: 'text-xs opacity-50 font-semibold',
-              suffix: 'text-xs opacity-50 font-semibold',
-              icon: {
-                base: 'flex-shrink-0 w-4 h-4 mx-2',
-              },
-            },
-          },
-        }"
-        class="bg-white dark:bg-gray-900 transition duration-1000"
-        :class="highlightInput ? 'shadow-2xl' : 'shadow-md'"
-      >
-        <template #empty-state>
-          <div />
-        </template>
-      </UCommandPalette>
+    <div class="w-full max-w-screen-md px-4 pb-12 flex flex-col gap-4 md:pt-24 md:pb-24 relative z-10">
+      <Searchbox />
     </div>
   </div>
 </template>

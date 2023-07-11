@@ -6,8 +6,10 @@ const title = 'Alumnirabatt'
 export default defineNuxtConfig({
   srcDir: 'src',
   modules: [
-    '@nuxthq/ui',
+    '@nuxtjs/tailwindcss',
     '@vite-pwa/nuxt',
+    '@vueuse/nuxt',
+    'nuxt-icon',
   ],
   app: {
     head: {
