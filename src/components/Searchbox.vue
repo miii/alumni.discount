@@ -11,7 +11,7 @@ const pending = ref(false)
 /** Minimum query length to trigger search */
 const minQueryLength = computed(() => query.value.length > 2)
 /** Whether any results has been fetched */
-const initialState = ref(false)
+const initialState = ref(true)
 /** Hightlight searchbox */
 const highlight = ref(false)
 
@@ -25,7 +25,7 @@ const discounts = computedAsync(async () => {
   pending.value = true
   const data = await $fetch(`/api/search`, { query: { q: query.value } })
   pending.value = false
-  initialState.value = true
+  initialState.value = false
 
   return data.results
 }, [])
