@@ -66,7 +66,10 @@ const { isOnline } = useNetwork()
       :class="highlight ? 'shadow-2xl duration-1000' : 'shadow-md duration-300'"
     >
       <div class="relative flex items-center">
-        <Icon name="heroicons:magnifying-glass" class="pointer-events-none absolute start-4 text-gray-400 dark:text-gray-500 h-4 w-4" aria-hidden="true" />
+        <Transition >
+          <Icon v-if="initialState && !query.length" name="🫰" class="pointer-events-none absolute start-4 text-gray-400 dark:text-gray-500 h-3 w-3" aria-hidden="true" />
+          <Icon v-else name="heroicons:magnifying-glass" class="pointer-events-none absolute start-4 text-gray-400 dark:text-gray-500 h-4 w-4" aria-hidden="true" />
+        </Transition>
         <Icon v-if="pending" name="line-md:loading-loop" class="pointer-events-none absolute end-4 text-gray-400 dark:text-gray-500 h-5 w-5" aria-hidden="true" />
         <ComboboxInput
           :value="query"
@@ -132,3 +135,16 @@ const { isOnline } = useNetwork()
     </div>
   </Combobox>
 </template>
+
+<style>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.2s linear, transform 0.1s ease-in-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+  transform: scale(0.7);
+}
+</style>
