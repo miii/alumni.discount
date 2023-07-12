@@ -72,10 +72,13 @@ useHead({
             target="_blank"
             rel="noopener noreferrer"
             class="flex gap-4 items-center rounded-md px-2 py-1.5 relative"
-            :class="{ 'bg-gray-100': active }"
+            :class="{ 'bg-gray-100 dark:bg-gray-800': active }"
             @click="$event.stopPropagation()"
           >
-            <span class="w-12 border shadow bg-white" :class="{ 'shadow-md': active }">
+            <span
+              class="w-12 border shadow bg-white dark:bg-gray-800 dark:border-transparent rounded"
+              :class="{ 'shadow-md dark:bg-gray-700': active }"
+            >
               <span class="px-2 py-3 h-10 block">
                 <img :src="`/api/logo?src=${discount.logoUrl}`" class="h-full object-cover object-left mx-auto" />
               </span>
@@ -87,8 +90,8 @@ useHead({
               <span class="truncate flex-none font-bold">
                 {{ discount.brand }}: {{ discount.title }}
               </span>
-              <span class="truncate text-xs opacity-50">
-                <span v-if="discount.condition" class="text-red-700">{{ discount.condition }}.</span>
+              <span class="truncate text-xs opacity-50 dark:opacity-60">
+                <span v-if="discount.condition" class="text-red-700 dark:text-red-300">{{ discount.condition }}.</span>
                 {{ discount.description }}
               </span>
             </span>

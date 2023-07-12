@@ -1,38 +1,5 @@
 <script lang="ts" setup>
-import type { Discount } from './server/utils/search'
-
-const palette = ref<any>()
-const groups = computed(() => {
-  return [{
-    key: 'discounts',
-    commands: [],
-    search: async (q: string) => {
-      if (!q || q.length < 2)
-        return []
-
-      const data = await $fetch(`/api/search`, { query: { q } })
-
-      return data.results.map((discount) => ({
-        id: discount.id,
-        label: `${discount.brand}: ${discount.title}`,
-        prefix: discount.provider,
-        suffix: [discount.condition, discount.description].filter(Boolean).join(' - '),
-        url: discount.url,
-        icon: 'i-heroicons-bolt-solid',
-      }))
-    }
-  }].filter(Boolean)
-})
-
-onMounted(() => palette.value?.$refs.comboboxInput.el.focus())
-const onSelect = (option: Discount) => window.open(option.url, '_blank', 'noopener,noreferrer')
-const highlightInput = computed(() => palette.value && palette.value.query.length >= 2)
-
-useHead({
-  bodyAttrs: {
-    class: computed(() => highlightInput.value ? 'search-active' : '')
-  },
-})
+useColorMode()
 </script>
 
 <template>
@@ -48,7 +15,7 @@ useHead({
 <style>
 body {
   background: hsl(180, 20%, 95%);
-  @apply transition-colors duration-1000 py-4;
+  @apply transition-colors duration-1000 py-4 h-full;
 }
 
 body.search-active {
@@ -56,6 +23,6 @@ body.search-active {
 }
 
 html.dark body {
-  @apply bg-gradient-to-b from-black to-gray-800;
+  @apply bg-gray-950 text-white;
 }
 </style>

@@ -57,5 +57,10 @@ export default defineNuxtConfig({
     devOptions: {
       enabled: false,
     },
-  }
+  },
+  tailwindcss: {
+    config: {
+      darkMode: 'class',
+    },
+  },
 })
