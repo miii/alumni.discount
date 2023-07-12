@@ -6,7 +6,7 @@ const selectedUrls = ref<string[]>([])
 /** Search query */
 const query = ref('')
 /** Pending fetch state */
-const pending = ref(true)
+const pending = ref(false)
 
 /** Minimum query length to trigger search */
 const minQueryLength = computed(() => query.value.length > 2)
@@ -67,6 +67,7 @@ const { isOnline } = useNetwork()
     >
       <div class="relative flex items-center">
         <Icon name="heroicons:magnifying-glass" class="pointer-events-none absolute start-4 text-gray-400 dark:text-gray-500 h-4 w-4" aria-hidden="true" />
+        <Icon v-if="pending" name="line-md:loading-loop" class="pointer-events-none absolute end-4 text-gray-400 dark:text-gray-500 h-5 w-5" aria-hidden="true" />
         <ComboboxInput
           :value="query"
           autofocus
