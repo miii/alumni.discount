@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import { version } from '../../package.json'
+
+// Remove trailing .0 from version
+const shortVersion = version.replace(/\.0$/, '')
 </script>
 
 <template>
@@ -10,6 +13,6 @@ import { version } from '../../package.json'
     class="text-center text-xs opacity-30 fixed bottom-4 font-semibold flex gap-2 items-center hover:opacity-50"
   >
     <GithubLogo class="w-4" />
-    Alumnirabatt v{{ version }}
+    Alumnirabatt v{{ shortVersion }}
   </a>
 </template>
