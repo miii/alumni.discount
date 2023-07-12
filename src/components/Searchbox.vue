@@ -54,6 +54,9 @@ useHead({
     class: computed(() => highlight.value ? 'search-active' : '')
   },
 })
+
+// Notify user when offline
+const { isOnline } = useNetwork()
 </script>
 
 <template>
@@ -117,7 +120,10 @@ useHead({
           </a>
         </ComboboxOption>
         <div v-if="discounts.length === 0 && previousCount === 0">
-          <div class="flex items-center justify-center h-12">
+          <div v-if="!isOnline" class="flex items-center justify-center h-12">
+            <span class="text-gray-400 dark:text-gray-500">Du verkar vara offline</span>
+          </div>
+          <div v-else class="flex items-center justify-center h-12">
             <span class="text-gray-400 dark:text-gray-500">Inga resultat matchar <strong>"{{ query }}"</strong></span>
           </div>
         </div>
