@@ -3,7 +3,7 @@ useColorMode()
 </script>
 
 <template>
-  <div class="h-screen flex justify-center items-start">
+  <div class="flex justify-center items-start">
     <Footer />
     <Metadata />
     <div class="w-full max-w-screen-md px-4 pb-12 flex flex-col gap-4 md:pt-24 md:pb-24 relative z-10">
