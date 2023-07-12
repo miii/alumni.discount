@@ -76,8 +76,11 @@ useHead({
             @click="$event.stopPropagation()"
           >
             <span
-              class="w-12 border shadow bg-white dark:bg-gray-800 dark:border-transparent rounded"
-              :class="{ 'shadow-md dark:bg-gray-700': active }"
+              class="w-12 border bg-white dark:border-transparent rounded"
+              :class="{
+                'shadow-md dark:bg-gray-700': active,
+                'shadow dark:bg-gray-800': !active,
+              }"
             >
               <span class="px-2 py-3 h-10 block">
                 <img :src="`/api/logo?src=${discount.logoUrl}`" class="h-full object-cover object-left mx-auto" />
