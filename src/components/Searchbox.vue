@@ -75,7 +75,7 @@ const { isOnline } = useNetwork()
           :value="query"
           autofocus
           placeholder="Sök bland butiker och erbjudanden..."
-          class="w-full placeholder-gray-400 dark:placeholder-gray-500 bg-transparent border-0 text-gray-900 dark:text-white focus:ring-0 focus:outline-none sm:text-sm h-12 px-4 ps-10"
+          class="w-full placeholder-gray-400 dark:placeholder-gray-500 bg-transparent border-0 text-gray-900 dark:text-white focus:ring-0 focus:outline-none sm:text-sm h-12 px-4 ps-11"
           @change="query = $event.target.value"
           @focus="updateHightlight"
           @blur="highlight = false"
