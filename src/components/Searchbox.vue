@@ -10,8 +10,8 @@ const pending = ref(false)
 
 /** Minimum query length to trigger search */
 const minQueryLength = computed(() => query.value.length > 2)
-/** Discounts count from previous fetch */
-const previousCount = ref<number>(1)
+/** Whether any results has been fetched */
+const initialState = ref(false)
 /** Hightlight searchbox */
 const highlight = ref(false)
 
@@ -25,7 +25,7 @@ const discounts = computedAsync(async () => {
   pending.value = true
   const data = await $fetch(`/api/search`, { query: { q: query.value } })
   pending.value = false
-  previousCount.value = data.results.length
+  initialState.value = true
 
   return data.results
 }, [])
@@ -120,11 +120,11 @@ const { isOnline } = useNetwork()
             </span>
           </a>
         </ComboboxOption>
-        <div v-if="discounts.length === 0 && previousCount === 0">
+        <div v-if="discounts.length === 0">
           <div v-if="!isOnline" class="flex items-center justify-center h-12">
             <span class="text-gray-400 dark:text-gray-500">Du verkar vara offline</span>
           </div>
-          <div v-else class="flex items-center justify-center h-12">
+          <div v-else-if="!initialState" class="flex items-center justify-center h-12">
             <span class="text-gray-400 dark:text-gray-500">Inga resultat matchar <strong>"{{ query }}"</strong></span>
           </div>
         </div>
