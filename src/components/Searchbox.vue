@@ -71,7 +71,7 @@ useHead({
             :href="discount.url"
             target="_blank"
             rel="noopener noreferrer"
-            class="flex gap-4 items-center rounded-md px-2 py-1.5 relative"
+            class="flex gap-4 items-center rounded-md px-3 py-2 relative"
             :class="{ 'bg-gray-100 dark:bg-gray-800': active }"
             @click="$event.stopPropagation()"
           >
