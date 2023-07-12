@@ -38,7 +38,7 @@ export default defineEventHandler(async (event) => {
   const mecenatDiscounts: Discount[] = mecenat.discounts?.map((discount) => {
     const conditionText = stripHtml(discount.conditionHTML)
     const description = discount.subtitle || conditionText
-    const condition = findCondition(conditionText)
+    const condition = findCondition(conditionText) || findCondition(description)
 
     return {
       id: `stuk://${discount.id}`,

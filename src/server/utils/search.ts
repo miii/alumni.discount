@@ -66,6 +66,6 @@ export const stripHtml = (html: string) => {
  * @param description Discount description
  */
 export const findCondition = (description: string) => {
-  const minAmount = description.match(/(minst|över|ordervärde) ([0-9]+ kr)/i)?.[2]
-  return minAmount ? `Minst ${minAmount}` : null
+  const minAmount = description.match(/(minst|över|ordervärde) ([0-9]+) kr(onor)?(?! rabatt)/i)?.[2]
+  return minAmount ? `Minst ${minAmount} kr` : null
 }
