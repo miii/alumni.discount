@@ -17,7 +17,7 @@ export default defineNuxtConfig({
     },
   },
   pwa: {
-    registerType: 'prompt',
+    registerType: 'autoUpdate',
     manifest: {
       name: title,
       short_name: title,
