@@ -1,18 +1,27 @@
 <script lang="ts" setup>
 import { Combobox, ComboboxInput, ComboboxOptions, ComboboxOption } from '@headlessui/vue'
 
+/** Dummy model value for Combobox */
 const selectedUrls = ref<string[]>([])
+/** Search query */
 const query = ref('')
+/** Pending fetch state */
 const pending = ref(true)
 
+/** Minimum query length to trigger search */
 const minQueryLength = computed(() => query.value.length > 2)
+/** Discounts count from previous fetch */
 const previousCount = ref<number>(1)
+/** Hightlight searchbox */
 const highlight = ref(false)
 
+/** List of discounts */
 const discounts = computedAsync(async () => {
+  // Require minimum query length
   if (!minQueryLength.value)
     return []
 
+  // Fetch discounts from serverless function
   pending.value = true
   const data = await $fetch(`/api/search`, { query: { q: query.value } })
   pending.value = false
@@ -21,18 +30,25 @@ const discounts = computedAsync(async () => {
   return data.results
 }, [])
 
+/** Update hightlight state */
 const updateHightlight = () => highlight.value = query.value.length > 0
 watch(query, updateHightlight)
 
+// Open links manually when selected with keyboard
 watch(selectedUrls, urls => {
   const url = urls[0]
   if (!url)
     return
 
-  window.open(url, '_blank', 'noopener,noreferrer')
+  // Combobox from HeadlessUI will add the selected item to the model value.
+  // We don't need this, so we reset the model value to an empty array.
   selectedUrls.value = []
+
+  // Open link in new tab
+  window.open(url, '_blank', 'noopener,noreferrer')
 })
 
+// Make background darker when search is active
 useHead({
   bodyAttrs: {
     class: computed(() => highlight.value ? 'search-active' : '')
