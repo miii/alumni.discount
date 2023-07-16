@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { Combobox, ComboboxInput, ComboboxOptions, ComboboxOption } from '@headlessui/vue'
+import { version } from '../../package.json'
 
 /** Dummy model value for Combobox */
 const selectedUrls = ref<string[]>([])
@@ -57,6 +58,9 @@ useHead({
 
 // Notify user when offline
 const { isOnline } = useNetwork()
+
+// Add dark mode support to logo serverless function
+const colorMode = useColorMode()
 </script>
 
 <template>
@@ -66,8 +70,8 @@ const { isOnline } = useNetwork()
       :class="highlight ? 'shadow-2xl duration-1000' : 'shadow-md duration-300'"
     >
       <div class="relative flex items-center">
-        <Transition >
-          <Icon v-if="initialState && !query.length" name="🫰" class="pointer-events-none absolute start-4 text-gray-400 dark:text-gray-500 h-3 w-3" aria-hidden="true" />
+        <Transition>
+          <Icon v-if="initialState && !query.length" name="🫰" class="pointer-events-none absolute start-4 text-gray-400 dark:text-gray-500 h-3 w-3 dark:opacity-70" aria-hidden="true" />
           <Icon v-else name="heroicons:magnifying-glass" class="pointer-events-none absolute start-4 text-gray-400 dark:text-gray-500 h-4 w-4" aria-hidden="true" />
         </Transition>
         <Icon v-if="pending" name="line-md:loading-loop" class="pointer-events-none absolute end-4 text-gray-400 dark:text-gray-500 h-5 w-5" aria-hidden="true" />
@@ -106,7 +110,10 @@ const { isOnline } = useNetwork()
               }"
             >
               <span class="px-2 py-3 h-10 block">
-                <img :src="`/api/logo?src=${discount.logoUrl}`" class="h-full object-cover object-left mx-auto" />
+                <img
+                  :src="`/api/logo?src=${discount.logoUrl}&dark=${colorMode === 'dark'}&v=${version}`"
+                  class="h-full object-cover object-left mx-auto"
+                />
               </span>
             </span>
             <span class="flex flex-col overflow-hidden font-semibold w-full">
