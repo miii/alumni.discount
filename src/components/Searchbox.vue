@@ -16,11 +16,12 @@ const initialState = ref(true)
 /** Hightlight searchbox */
 const highlight = ref(false)
 
-/** List of discounts */
-const discounts = computedAsync(async () => {
-  // Require minimum query length
+const fetchedDiscounts = computedAsync(async () => {
   if (!minQueryLength.value)
-    return []
+    return null
+
+  // Debounce search
+  await new Promise(resolve => setTimeout(resolve, 100))
 
   // Fetch discounts from serverless function
   pending.value = true
@@ -29,7 +30,15 @@ const discounts = computedAsync(async () => {
   initialState.value = false
 
   return data.results
-}, [])
+}, null)
+
+/** List of discounts */
+const discounts = computed(() => {
+  if (!minQueryLength.value)
+    return []
+
+  return fetchedDiscounts.value
+})
 
 /** Update hightlight state */
 const updateHightlight = () => highlight.value = query.value.length > 0
@@ -51,8 +60,10 @@ watch(selectedUrls, urls => {
 
 // Make background darker when search is active
 useHead({
-  bodyAttrs: {
-    class: computed(() => highlight.value ? 'search-active' : '')
+  htmlAttrs: {
+    class: computed(() => [
+      highlight.value ? 'search-active' : '',
+    ])
   },
 })
 
@@ -66,7 +77,7 @@ const colorMode = useColorMode()
 <template>
   <Combobox v-model="selectedUrls" multiple>
     <div
-      class="flex flex-col flex-1 min-h-0 divide-y divide-gray-100 dark:divide-gray-800 bg-white dark:bg-gray-900 transition"
+      class="flex flex-col flex-1 min-h-0 divide-y divide-gray-100 dark:divide-gray-700 bg-white dark:bg-gray-800 transition dark:border border-gray-700"
       :class="highlight ? 'shadow-2xl duration-1000' : 'shadow-md duration-300'"
     >
       <div class="relative flex items-center">
@@ -85,7 +96,7 @@ const colorMode = useColorMode()
           @blur="highlight = false"
         />
       </div>
-      <ComboboxOptions v-if="minQueryLength" class="p-2 text-sm text-gray-700 dark:text-gray-200">
+      <ComboboxOptions v-if="fetchedDiscounts" class="p-2 text-sm text-gray-700 dark:text-gray-200">
         <ComboboxOption
           v-for="discount in discounts"
           :key="discount.id"
@@ -99,14 +110,14 @@ const colorMode = useColorMode()
             target="_blank"
             rel="noopener noreferrer"
             class="flex gap-4 items-center rounded-md px-3 py-2 relative"
-            :class="{ 'bg-gray-100 dark:bg-gray-800': active }"
+            :class="{ 'bg-gray-100 dark:bg-gray-900': active }"
             @click="$event.stopPropagation()"
           >
             <span
-              class="w-12 border bg-white dark:border-transparent rounded"
+              class="w-12 border bg-white dark:border-transparent rounded dark:bg-gray-700"
               :class="{
-                'shadow-md dark:bg-gray-700': active,
-                'shadow dark:bg-gray-800': !active,
+                'shadow-md': active,
+                'shadow': !active,
               }"
             >
               <span class="px-2 py-3 h-10 block">
@@ -130,11 +141,11 @@ const colorMode = useColorMode()
             </span>
           </a>
         </ComboboxOption>
-        <div v-if="discounts.length === 0">
+        <div v-if="fetchedDiscounts?.length === 0">
           <div v-if="!isOnline" class="flex items-center justify-center h-12">
             <span class="text-gray-400 dark:text-gray-500">Du verkar vara offline</span>
           </div>
-          <div v-else-if="!initialState" class="flex items-center justify-center h-12">
+          <div v-else class="flex items-center justify-center h-12">
             <span class="text-gray-400 dark:text-gray-500">Inga resultat matchar <strong>"{{ query }}"</strong></span>
           </div>
         </div>
