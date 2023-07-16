@@ -22,7 +22,7 @@ html {
 }
 
 body > div > div {
-  @apply min-h-[100vh] py-4;
+  @apply min-h-[100svh] py-4;
 }
 
 html.search-active {
