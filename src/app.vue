@@ -34,7 +34,7 @@ html.search-active {
 }
 
 #container {
-  margin: var(--searchbox-margin, 40vh 0);
+  margin-top: var(--searchbox-margin, 40vh);
   transition: margin ease-out;
   transition-duration: var(--searchbox-transition-duration, 0.5s);
 }
