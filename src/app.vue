@@ -6,7 +6,10 @@ useColorMode()
   <div class="flex justify-center items-start h-full">
     <Footer />
     <Metadata />
-    <div class="w-full max-w-screen-md px-4 pb-12 md:pt-24 flex flex-col gap-4 md:pb-24 relative z-10 my-auto lg:my-0 flex-0">
+    <div
+      id="container"
+      class="w-full max-w-screen-md px-4 pb-12 md:pt-12 md:pb-24 flex flex-col gap-4 relative z-10 flex-0"
+    >
       <Searchbox />
     </div>
   </div>
@@ -24,6 +27,16 @@ body > div > div {
 
 html.search-active {
   background-color: hsl(160, 20%, 90%);
+
+  .container {
+    @apply my-0;
+  }
+}
+
+#container {
+  margin: var(--searchbox-margin, 40vh 0);
+  transition: margin ease-out;
+  transition-duration: var(--searchbox-transition-duration, 0.5s);
 }
 
 html.dark {

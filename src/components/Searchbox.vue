@@ -41,8 +41,7 @@ const discounts = computed(() => {
 })
 
 /** Update hightlight state */
-const updateHightlight = () => highlight.value = query.value.length > 0
-watch(query, updateHightlight)
+watch(query, () => highlight.value = true)
 
 // Open links manually when selected with keyboard
 watch(selectedUrls, urls => {
@@ -59,13 +58,14 @@ watch(selectedUrls, urls => {
 })
 
 // Make background darker when search is active
-useHead({
+useHead(() => ({
   htmlAttrs: {
-    class: computed(() => [
+    class: [
       highlight.value ? 'search-active' : '',
-    ])
+    ],
+    style: highlight.value ? '--searchbox-margin: 0; --searchbox-transition-duration: 0.3s' : undefined,
   },
-})
+}))
 
 // Notify user when offline
 const { isOnline } = useNetwork()
@@ -92,7 +92,7 @@ const colorMode = useColorMode()
           placeholder="Sök bland butiker och erbjudanden..."
           class="w-full placeholder-gray-400 dark:placeholder-gray-500 bg-transparent border-0 text-gray-900 dark:text-white focus:ring-0 focus:outline-none sm:text-sm h-12 px-4 ps-11"
           @change="query = $event.target.value"
-          @focus="updateHightlight"
+          @focus="highlight = true"
           @blur="highlight = false"
         />
       </div>
@@ -128,14 +128,14 @@ const colorMode = useColorMode()
               </span>
             </span>
             <span class="flex flex-col overflow-hidden font-semibold w-full">
-              <span class="text-xs opacity-50">
+              <span class="text-xs opacity-60">
                 <span>{{ discount.provider }}</span>
               </span>
               <span class="truncate flex-none font-bold">
                 {{ discount.brand }}: {{ discount.title }}
               </span>
-              <span class="truncate text-xs opacity-50 dark:opacity-60">
-                <span v-if="discount.condition" class="text-red-700 dark:text-red-300">{{ discount.condition }}.</span>
+              <span class="truncate text-xs opacity-60">
+                <span v-if="discount.condition" class="text-red-600 dark:text-red-300">{{ discount.condition }}.</span>
                 {{ discount.description }}
               </span>
             </span>
