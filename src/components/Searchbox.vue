@@ -122,6 +122,7 @@ const colorMode = useColorMode()
             >
               <span class="px-2 py-3 h-10 block">
                 <img
+                  loading="lazy"
                   :src="`/api/logo?src=${discount.logoUrl}&dark=${colorMode === 'dark'}&v=${version}`"
                   class="h-full object-cover object-left mx-auto"
                 />
