@@ -78,54 +78,34 @@ const colorMode = useColorMode()
   <Combobox v-model="selectedUrls" multiple>
     <div
       class="flex flex-col flex-1 min-h-0 divide-y divide-gray-100 dark:divide-gray-700 bg-white dark:bg-gray-800 transition dark:border border-gray-700"
-      :class="highlight ? 'shadow-2xl duration-1000' : 'shadow-md duration-300'"
-    >
+      :class="highlight ? 'shadow-2xl duration-1000' : 'shadow-md duration-300'">
       <div class="relative flex items-center">
         <Transition>
-          <Icon v-if="initialState && !query.length" name="🫰" class="pointer-events-none absolute start-4 text-gray-400 dark:text-gray-500 h-3 w-3 dark:opacity-70" aria-hidden="true" />
-          <Icon v-else name="heroicons:magnifying-glass" class="pointer-events-none absolute start-4 text-gray-400 dark:text-gray-500 h-4 w-4" aria-hidden="true" />
+          <Icon v-if="initialState && !query.length" name="🫰"
+            class="pointer-events-none absolute start-4 text-gray-400 dark:text-gray-500 h-3 w-3 dark:opacity-70"
+            aria-hidden="true" />
+          <Icon v-else name="heroicons:magnifying-glass"
+            class="pointer-events-none absolute start-4 text-gray-400 dark:text-gray-500 h-4 w-4" aria-hidden="true" />
         </Transition>
-        <Icon v-if="pending" name="line-md:loading-loop" class="pointer-events-none absolute end-4 text-gray-400 dark:text-gray-500 h-5 w-5" aria-hidden="true" />
-        <ComboboxInput
-          :value="query"
-          autofocus
-          placeholder="Sök bland butiker och erbjudanden..."
+        <Icon v-if="pending" name="line-md:loading-loop"
+          class="pointer-events-none absolute end-4 text-gray-400 dark:text-gray-500 h-5 w-5" aria-hidden="true" />
+        <ComboboxInput :value="query" autofocus placeholder="Sök bland butiker och erbjudanden..."
           class="w-full placeholder-gray-400 dark:placeholder-gray-500 bg-transparent border-0 text-gray-900 dark:text-white focus:ring-0 focus:outline-none sm:text-sm h-12 px-4 ps-11"
-          @change="query = $event.target.value"
-          @focus="highlight = true"
-          @blur="highlight = false"
-        />
+          @change="query = $event.target.value" @focus="highlight = true" @blur="highlight = false" />
       </div>
       <ComboboxOptions v-if="fetchedDiscounts" class="p-2 text-sm text-gray-700 dark:text-gray-200">
-        <ComboboxOption
-          v-for="discount in discounts"
-          :key="discount.id"
-          :value="discount.url"
-          v-slot="{ active }"
-          title="Gå till erbjudande"
-          class="cursor-pointer"
-        >
-          <a
-            :href="discount.url"
-            target="_blank"
-            rel="noopener noreferrer"
+        <ComboboxOption v-for="discount in discounts" :key="discount.id" :value="discount.url" v-slot="{ active }"
+          title="Gå till erbjudande" class="cursor-pointer">
+          <a :href="discount.url" target="_blank" rel="noopener noreferrer"
             class="flex gap-4 items-center rounded-md px-3 py-2 relative"
-            :class="{ 'bg-gray-100 dark:bg-gray-900': active }"
-            @click="$event.stopPropagation()"
-          >
-            <span
-              class="w-12 border bg-white dark:border-transparent rounded dark:bg-gray-700"
-              :class="{
-                'shadow-md': active,
-                'shadow': !active,
-              }"
-            >
+            :class="{ 'bg-gray-100 dark:bg-gray-900': active }" @click="$event.stopPropagation()">
+            <span class="w-12 border bg-white dark:border-transparent rounded dark:bg-gray-700" :class="{
+              'shadow-md': active,
+              'shadow': !active,
+            }">
               <span class="px-2 py-3 h-10 block">
-                <img
-                  loading="lazy"
-                  :src="`/api/logo?src=${discount.logoUrl}&dark=${colorMode === 'dark'}&v=${version}`"
-                  class="h-full object-cover object-left mx-auto"
-                />
+                <img loading="lazy" :src="`/api/logo?src=${discount.logoUrl}&dark=${colorMode === 'dark'}&v=${version}`"
+                  class="h-full object-cover object-left mx-auto" />
               </span>
             </span>
             <span class="flex flex-col overflow-hidden font-semibold w-full">

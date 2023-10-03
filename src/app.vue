@@ -6,10 +6,8 @@ useColorMode()
   <div class="flex justify-center items-start h-full">
     <Footer />
     <Metadata />
-    <div
-      id="container"
-      class="w-full max-w-screen-md px-4 pb-12 md:pt-12 md:pb-24 flex flex-col gap-4 relative z-10 flex-0"
-    >
+    <div id="container"
+      class="w-full max-w-screen-md px-4 pb-12 md:pt-12 md:pb-24 flex flex-col gap-4 relative z-10 flex-0">
       <Searchbox />
     </div>
   </div>
@@ -21,7 +19,7 @@ html {
   @apply transition-colors duration-1000 bg-auto;
 }
 
-body > div > div {
+body>div>div {
   @apply min-h-[100svh] py-4;
 }
 
