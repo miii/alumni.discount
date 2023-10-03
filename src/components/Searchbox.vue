@@ -10,11 +10,16 @@ const query = ref('')
 const pending = ref(false)
 
 /** Minimum query length to trigger search */
-const minQueryLength = computed(() => query.value.length > 2)
-/** Whether any results has been fetched */
-const initialState = ref(true)
+const minQueryLength = computed(() => query.value.length >= 2)
 /** Hightlight searchbox */
 const highlight = ref(false)
+
+// Input events
+const onFocus = () => highlight.value = true
+const onBlur = () => {
+  if (query.value.length === 0)
+    highlight.value = false
+}
 
 const fetchedDiscounts = computedAsync(async () => {
   if (!minQueryLength.value)
@@ -27,7 +32,6 @@ const fetchedDiscounts = computedAsync(async () => {
   pending.value = true
   const data = await $fetch(`/api/search`, { query: { q: query.value } })
   pending.value = false
-  initialState.value = false
 
   return data.results
 }, null)
@@ -81,7 +85,7 @@ const colorMode = useColorMode()
       :class="highlight ? 'shadow-2xl duration-1000' : 'shadow-md duration-300'">
       <div class="relative flex items-center">
         <Transition>
-          <Icon v-if="initialState && !query.length" name="🫰"
+          <Icon v-if="!highlight && !query.length" name="🫰"
             class="pointer-events-none absolute start-4 text-gray-400 dark:text-gray-500 h-3 w-3 dark:opacity-70"
             aria-hidden="true" />
           <Icon v-else name="heroicons:magnifying-glass"
@@ -89,11 +93,11 @@ const colorMode = useColorMode()
         </Transition>
         <Icon v-if="pending" name="line-md:loading-loop"
           class="pointer-events-none absolute end-4 text-gray-400 dark:text-gray-500 h-5 w-5" aria-hidden="true" />
-        <ComboboxInput :value="query" autofocus placeholder="Sök bland butiker och erbjudanden..."
+        <ComboboxInput :value="query" placeholder="Sök bland butiker och erbjudanden..."
           class="w-full placeholder-gray-400 dark:placeholder-gray-500 bg-transparent border-0 text-gray-900 dark:text-white focus:ring-0 focus:outline-none sm:text-sm h-12 px-4 ps-11"
-          @change="query = $event.target.value" @focus="highlight = true" @blur="highlight = false" />
+          @change="query = $event.target.value" @focus="onFocus" @blur="onBlur" />
       </div>
-      <ComboboxOptions v-if="fetchedDiscounts" class="p-2 text-sm text-gray-700 dark:text-gray-200">
+      <ComboboxOptions v-if="fetchedDiscounts" class="p-2 text-sm text-gray-700 dark:text-gray-200" static>
         <ComboboxOption v-for="discount in discounts" :key="discount.id" :value="discount.url" v-slot="{ active }"
           title="Gå till erbjudande" class="cursor-pointer">
           <a :href="discount.url" target="_blank" rel="noopener noreferrer"
