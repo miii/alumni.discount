@@ -1,6 +1,6 @@
 import { description } from './package.json'
 
-const title = 'Alumnirabatt'
+const title = 'alumni.discount'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({

@@ -1,5 +1,6 @@
 {
   "name": "@miii/alumnirabatt",
+  "description": "Sök bland alumnirabatter från Mecenat & Studentkortet på samma gång",
   "version": "1.3.0",
   "private": true,
   "scripts": {
