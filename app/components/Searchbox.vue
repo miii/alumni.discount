@@ -6,11 +6,12 @@ import { version } from '../../package.json'
 const selectedUrls = ref<string[]>([])
 /** Search query */
 const query = ref('')
+const debouncedQuery = useDebounce(query, 200)
 /** Pending fetch state */
 const pending = ref(false)
 
 /** Minimum query length to trigger search */
-const minQueryLength = computed(() => query.value.length >= 2)
+const minQueryLength = computed(() => debouncedQuery.value.length >= 2)
 /** Hightlight searchbox */
 const highlight = ref(false)
 
@@ -25,12 +26,9 @@ const fetchedDiscounts = computedAsync(async () => {
   if (!minQueryLength.value)
     return null
 
-  // Debounce search
-  await new Promise(resolve => setTimeout(resolve, 100))
-
   // Fetch discounts from serverless function
   pending.value = true
-  const data = await $fetch(`/api/search`, { query: { q: query.value } })
+  const data = await $fetch('/api/search', { query: { q: debouncedQuery.value } })
   pending.value = false
 
   return data.results
@@ -75,7 +73,7 @@ useHead(() => ({
 const { isOnline } = useNetwork()
 
 // Add dark mode support to logo serverless function
-const colorMode = useColorMode()
+const colorMode = usePreferredColorScheme()
 </script>
 
 <template>
@@ -85,9 +83,10 @@ const colorMode = useColorMode()
       :class="highlight ? 'shadow-2xl duration-1000' : 'shadow-md duration-300'">
       <div class="relative flex items-center">
         <Transition>
-          <Icon v-if="!highlight && !query.length" name="🫰"
-            class="pointer-events-none absolute start-4 text-gray-400 dark:text-gray-500 h-3 w-3 dark:opacity-70"
-            aria-hidden="true" />
+          <span v-if="!highlight && !query.length"
+            class="pointer-events-none absolute start-4 text-gray-400 dark:text-gray-500 h-3 w-3 -mt-2.5 dark:opacity-70"
+            aria-hidden="true"
+            v-html="'🫰'" />
           <Icon v-else name="heroicons:magnifying-glass"
             class="pointer-events-none absolute start-4 text-gray-400 dark:text-gray-500 h-4 w-4" aria-hidden="true" />
         </Transition>

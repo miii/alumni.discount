@@ -43,7 +43,7 @@ export interface MecenatResponse extends Record<string, unknown> {
     brandName: string
     title: string
     subtitle: string
-    conditionHTML: string
+    conditionHTML?: string
     validTo: string
     url: string
   }[]
@@ -56,6 +56,8 @@ type Provider = 'Studentkortet' | 'Mecenat'
  * @param html HTML string
  */
 export const stripHtml = (html: string) => {
+  if (!html) return ''
+  
   const content = html
     // Assume </p> is a sentence separator
     .replace(/\s*<\/p>\s*/g, '. ')

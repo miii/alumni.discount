@@ -81,6 +81,7 @@ const replaceColor = async (
   // Replace colors
   for (let i = 0; i < buffer.length; i += 4) {
     const [r, g, b, a] = [buffer[i], buffer[i + 1], buffer[i + 2], buffer[i + 3]]
+    if (r === undefined || g === undefined || b === undefined || a === undefined) continue
     if (threshold([r, g, b, a])) {
       const [nr, ng, nb, na] = newColor([r, g, b, a])
 

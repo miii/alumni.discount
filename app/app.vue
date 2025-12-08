@@ -1,5 +1,25 @@
 <script lang="ts" setup>
-useColorMode()
+const colorMode = useColorMode();
+
+if (import.meta.server) {
+  const acceptChHeader = useResponseHeader('Accept-CH')
+  const criticalChHeader = useResponseHeader('Critical-CH')
+  const varyChHeader = useResponseHeader('Vary')
+  acceptChHeader.value = 'Sec-CH-Prefers-Color-Scheme'
+  criticalChHeader.value = 'Sec-CH-Prefers-Color-Scheme'
+  varyChHeader.value = 'Sec-CH-Prefers-Color-Scheme'
+}
+
+const chPrefersColorScheme = useRequestHeader('Sec-CH-Prefers-Color-Scheme') as string | undefined
+if (chPrefersColorScheme) {
+  colorMode.value = chPrefersColorScheme as typeof colorMode.value
+}
+
+useHead({
+  htmlAttrs: {
+    class: colorMode.value,
+  },
+})
 </script>
 
 <template>

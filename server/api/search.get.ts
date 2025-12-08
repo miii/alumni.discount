@@ -1,4 +1,5 @@
-import { Discount, MecenatResponse, StukResponse, findCondition, stripHtml } from '../utils/search'
+import type { Discount, MecenatResponse, StukResponse } from '../utils/search'
+import { findCondition, stripHtml } from '../utils/search'
 
 export default defineEventHandler(async (event) => {
   const { q } = getQuery(event)
@@ -36,7 +37,7 @@ export default defineEventHandler(async (event) => {
 
   // Create discount objects from Mecenat response
   const mecenatDiscounts: Discount[] = mecenat.discounts?.map((discount) => {
-    const conditionText = stripHtml(discount.conditionHTML)
+    const conditionText = stripHtml(discount.conditionHTML || '')
     const description = discount.subtitle || conditionText
     const condition = findCondition(conditionText) || findCondition(description)
 

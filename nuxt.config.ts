@@ -4,12 +4,12 @@ const title = 'alumni.discount'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  srcDir: 'src',
+  compatibilityDate: '2025-12-08',
   modules: [
     '@nuxtjs/tailwindcss',
     '@vite-pwa/nuxt',
     '@vueuse/nuxt',
-    'nuxt-icon',
+    '@nuxt/icon',
   ],
   app: {
     head: {
@@ -62,5 +62,10 @@ export default defineNuxtConfig({
     config: {
       darkMode: 'class',
     },
+  },
+  icon: {
+    serverBundle: {
+      collections: ['heroicons', 'line-md'],
+    }
   },
 })
